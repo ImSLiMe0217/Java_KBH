@@ -11,6 +11,6 @@ ___
     - ### JAVA 기초
         - 내용 정리 중
         - (임시) 날짜별 속기록: [ClassSummaryMD](ClassSummaryMD)
-
+    - ### 기초 테스트
 ___
   
