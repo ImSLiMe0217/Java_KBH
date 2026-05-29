@@ -11,6 +11,13 @@ public class GameKBH {
         System.out.println();
     }
 
+    int getUserAction() {
+        int action = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        return action;
+    }
+
     int rndRoll() {
         return (int) (Math.random() * 100 + 1);
     }
@@ -53,8 +60,6 @@ public class GameKBH {
 
         System.out.println("현재 능력치");
         printUserStat(userStats, statNames);
-        System.out.println();
-
     }
 
     void main() {
@@ -69,7 +74,7 @@ public class GameKBH {
 
         System.out.print("플레이어 이름: ");
         String name = sc.nextLine();
-        System.out.println("환영합니다. " + name + "님\n");
+        System.out.printf("환영합니다. '%s'님\n\n", name);
 
         while (true) {
             if (stage == 0) {
@@ -89,7 +94,7 @@ public class GameKBH {
             } else {
                 System.out.println("\n몬스터 조우!!!");
                 System.out.print("1) 전투시작 2) 도망간다 \n입력: ");
-                action = sc.nextInt();
+                action = getUserAction();
             }
 
             int combatResult = 1;
@@ -128,7 +133,6 @@ public class GameKBH {
     }
 
     int combat(int[] userStats, int itemAmount, int stage, int maxStage) {
-        int action;
 
         int userHp = userStats[0], userAtk = userStats[1], userDef = userStats[2], userLck = userStats[3];  // 안꺼내서 사용하면 배열에 그대로 반영되서 대참사남
         int maxUserHp = userHp, basicUserDef = userDef;
@@ -146,32 +150,32 @@ public class GameKBH {
         }
 
         System.out.println("전투 개시!\n");
+        int action;
         while (true) {
-            System.out.printf("내 체력: %d\t\t%s 체력: %d\n", userHp, mobType, mobHp);
-
-            System.out.printf("1) 공격한다\t2) 방어한다\t3)포션 사용(소지갯수: %d)\n입력: ", itemAmount);
-            action = sc.nextInt();
-            sc.nextLine();
-            System.out.println();
-
             int totalDmg = 0;
+
+            // 유저 턴
+            System.out.printf("내 체력: %d\t\t%s 체력: %d\n", userHp, mobType, mobHp);
+            System.out.printf("1) 공격한다\t2) 방어한다\t3)포션 사용(소지갯수: %d)\n입력: ", itemAmount);
+            action = getUserAction();
+
             switch (action) {
-                case 1 -> {     // 공격
+                case 1 -> {
                     System.out.println("플레이어의 공격!");
                     totalDmg = dmgCalc(userAtk, userLck, mobDef);
                     System.out.printf("%s에게 %d의 데미지를 주었다.\n", mobType, totalDmg);
                     mobHp -= totalDmg;
                     System.out.println();
 
-                }
-                case 2 -> {     // 방어
+                }   // 공격
+                case 2 -> {
                     System.out.println("방어!! 방어력이 50% 상승!");
                     System.out.printf("기존: %d -> ", userDef);
                     userDef *= 1.5;
                     System.out.printf("현재: %d\n", userDef);
 
-                }
-                case 3 -> {     // 회복
+                }   // 방어
+                case 3 -> {
                     if (userHp == maxUserHp) {
                         System.out.println("이미 최대 체력이다.");
                     } else if (itemAmount == 0) {
@@ -184,7 +188,7 @@ public class GameKBH {
                         System.out.printf("현재: %d\n", userHp);
                         itemAmount--;
                     }
-                }
+                }   // 회복
             }
             if (mobHp <= 0) {
                 System.out.printf("%s가 쓰러졌다!\n", mobType);
@@ -192,6 +196,7 @@ public class GameKBH {
             }
             pressEnter();
 
+            // 몬스터 공격 턴
             System.out.printf("%s의 공격!\n", mobType);
             totalDmg = dmgCalc(mobAtk, 0, userDef);
             System.out.printf("%d의 데미지를 받았다.\n\n", totalDmg);
