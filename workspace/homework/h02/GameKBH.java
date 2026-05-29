@@ -130,7 +130,7 @@ public class GameKBH {
     int combat(int[] userStats, int itemAmount, int stage, int maxStage) {
         int action;
 
-        int userHp = userStats[0], userAtk = userStats[1], userDef = userStats[2], userLck = userStats[3];
+        int userHp = userStats[0], userAtk = userStats[1], userDef = userStats[2], userLck = userStats[3];  // 안꺼내서 사용하면 배열에 그대로 반영되서 대참사남
         int maxUserHp = userHp, basicUserDef = userDef;
 
         String mobType = "몬스터";
