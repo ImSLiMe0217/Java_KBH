@@ -12,8 +12,13 @@ public class GameKBH {
     }
 
     int getUserAction() {
-        int action = sc.nextInt();
-        sc.nextLine();
+        String input = sc.nextLine();
+        int action;
+        try {
+            action = Integer.parseInt(input);
+        } catch (Exception e) {
+            action = -1;        // 비정상적인 입력이 들어올 경우 (
+        }
         System.out.println();
         return action;
     }
@@ -111,10 +116,14 @@ public class GameKBH {
                         combatResult = combat(userStats, itemAmount, stage, maxStage);
                     }
                 }
+                default -> {combatResult = -1;}
             }
 
             // 전투 결과 정산
-            if (combatResult == 0) {
+            if (combatResult == -1) {
+                System.out.println("비정상적인 입력입니다.");
+                break;
+            } else if (combatResult == 0) {
                 System.out.println("Game Over...\n");
                 break;
             } else if (combatResult == 1) {
@@ -189,6 +198,7 @@ public class GameKBH {
                         itemAmount--;
                     }
                 }   // 회복
+                default -> {return -1;}
             }
             if (mobHp <= 0) {
                 System.out.printf("%s가 쓰러졌다!\n", mobType);
