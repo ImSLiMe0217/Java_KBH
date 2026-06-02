@@ -1,10 +1,17 @@
-package ch11.mycar;
+package ch11.mycar.ex02;
 
+// 필드와 메소드를 정의한 클래스
 public class Car {
     // 필드
     String model;
     int speed;  // 필드를 초기화 하지 않으면 기본값으로 초기화 됨
     int gear;
+
+    // 생성자 (Python에서 할 때로 보면 init 메소드랑 비슷한 기능인거 같음)
+    Car(String name) {
+        System.out.println("Car(String name) 생성자 호출됨.");
+        model = name;
+    }
 
     // 메소드
 
@@ -34,7 +41,7 @@ public class Car {
 
     // 출발
     void start() {
-        System.out.println("출발!");
+        System.out.printf("%s: 출발!\n", model);
         gearUp();
         speedUp();
     }
@@ -44,7 +51,8 @@ public class Car {
         while (speed > 0) {
             slowDown();
         }
-        gear = 0;
         System.out.println("정지!");
+        gear = 0;
+        System.out.println("현재 기어: 중립");
     }
 }
