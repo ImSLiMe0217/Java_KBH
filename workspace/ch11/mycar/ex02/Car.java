@@ -8,9 +8,9 @@ public class Car {
     int gear;
 
     // 생성자 (Python에서 할 때로 보면 init 메소드랑 비슷한 기능인거 같음)
-    Car(String name) {
-        System.out.println("Car(String name) 생성자 호출됨.");
-        model = name;
+    public Car(String model) {
+        System.out.println("Car(String model) 생성자 호출됨.");
+        this.model = model; // Python 기준으로는 self.model = model 같은 거
     }
 
     // 메소드
