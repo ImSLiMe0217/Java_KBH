@@ -1,8 +1,8 @@
 package ch11.capsule.ex03;
 
-public class AccountBad {
+public class Account {
     // 잔고
-    public int balance;
+    private int balance;
 
     public void deposit(int amount) {
         if (amount > 0) {
@@ -12,6 +12,10 @@ public class AccountBad {
         } else {
             System.out.println("올바른 값을 입력해주세요.");
         }
+    }
+
+    public int getBalance() {
+        return balance;
     }
 
     public void withdraw(int amount) {
