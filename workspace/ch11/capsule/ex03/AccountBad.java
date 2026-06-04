@@ -6,7 +6,8 @@ public class AccountBad {
 
     public void deposit(int amount) {
         balance += amount;
-        System.out.printf("%d원이 입급되었습니다. (잔고: %d원)\n\n", amount, balance);
+//        System.out.printf("%d원이 입급되었습니다. (잔고: %d원)\n\n", amount, balance);
+        System.out.printf("%d원이 입급되었습니다. 잔고는 %d원 입니다.\n\n", amount, balance);
     }
 
     public void withdraw(int amount) {
@@ -14,9 +15,11 @@ public class AccountBad {
         balance -= amount;
         if (balance < 0) {
             balance = temp;
-            System.out.printf("잔고가 부족합니다. (잔고: %d원)\n\n", balance);
+//            System.out.printf("잔고가 부족합니다. (잔고: %d원)\n\n", balance);
+            System.out.printf("잔고가 부족합니다. 잔고는 %d원 입니다.\n\n", balance);
         } else {
-            System.out.printf("%d원이 출금되었습니다. (잔고: %d원)\n\n", amount, balance);
+//            System.out.printf("%d원이 출금되었습니다. (잔고: %d원)\n\n", amount, balance);
+            System.out.printf("%d원이 출금되었습니다. 잔고는 %d원 입니다.\n\n", amount, balance);
         }
     }
 }
