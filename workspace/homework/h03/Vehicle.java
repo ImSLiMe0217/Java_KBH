@@ -1,12 +1,12 @@
 package homework.h03;
 
 public class Vehicle {
-    static String model, type;
-    static int maxSeat;
-    static int maxSpeed, maxGear;
-    static int speed, gear;
-    private static int[] maxSpeedForGear = {0, 20, 40, 60, 80, maxSpeed};
-    private static String stat = "정차 중...";
+    private String model, type;
+    private int maxSeat;
+    private int maxSpeed, maxGear;
+    private int speed, gear;
+    private int[] maxSpeedForGear = {0, 20, 40, 60, 80, maxSpeed};
+    private String stat = "정차 중...";
 
     public Vehicle(String model, String type, int maxSeat, int maxSpeed, int maxGear) {
         this.model = model;
@@ -16,7 +16,7 @@ public class Vehicle {
         this.maxGear = maxGear;
     }
 
-    private void printCurrentStatus() {
+    protected void printCurrentStatus() {
         System.out.printf("(%s) 현재 기어: %d단\t현재 속도: %3dkm/h\n", stat, gear, speed);
     }
 
@@ -64,5 +64,9 @@ public class Vehicle {
     void getInfo() {
         System.out.printf("\n---현재 상태---\n%s\n속도: %d | 기어: %d\n차종: %s (%s)\n",
                 stat, speed, gear, model, type);
+    }
+
+    public int getMaxSeat() {
+        return maxSeat;
     }
 }

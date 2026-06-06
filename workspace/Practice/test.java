@@ -1,7 +1,11 @@
 package Practice;
 
+import java.time.LocalTime;
+
 public class test {
     void main() {
-        int a = 10;
+        LocalTime now = LocalTime.now();
+
+        System.out.println(now.getHour());
     }
 }
