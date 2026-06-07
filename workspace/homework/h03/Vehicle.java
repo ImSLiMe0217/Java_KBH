@@ -69,4 +69,12 @@ public class Vehicle {
     public int getMaxSeat() {
         return maxSeat;
     }
+
+    public int getMaxGear() {
+        return maxGear;
+    }
+
+    public String getStat() {
+        return stat;
+    }
 }

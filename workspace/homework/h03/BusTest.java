@@ -5,6 +5,17 @@ public class BusTest {
     // 승객 나이별 별도 요금 적용 (어린이, 청소년, 성인, 노약자) -> (완료 0606)
     // 탑승 시간대별 별도 요금 적용 (주간, 야간) -> (완료 0606)
     // 운행하는 버스마다 수익계산 및 전체 버스 수익계산 -> (버스별 수익계산 완료 0606)
+    static void multiplePassengerBoarding(Bus targetBus, Passenger passengerType, int amount) {
+        for (int i = 0; i < amount; i++) {
+            targetBus.passengerBoarding(passengerType);
+        }
+    }
+
+    static void multiplePassengerGetOff(Bus targetBus, Passenger passengerType, int amount) {
+        for (int i = 0; i < amount; i++) {
+            targetBus.passengerGetOff(passengerType);
+        }
+    }
 
     static void main() {
 
@@ -25,10 +36,9 @@ public class BusTest {
                 20, 60, 4,
                 "02", busRoute2);
 
+        BusCompany company1 = new BusCompany(new Bus[] {bus1, bus2});
 
-        bus1.passengerBoarding(adult);
-        bus1.passengerBoarding(adult);
-        bus1.passengerBoarding(adult);
+        multiplePassengerBoarding(bus1, adult, 3);
 
         bus1.depart();
         bus1.accelerate();
@@ -36,12 +46,8 @@ public class BusTest {
         bus1.accelerate();
         bus1.stop();
 
-        bus1.passengerBoarding(kid);
-        bus1.passengerBoarding(kid);
-        bus1.passengerBoarding(kid);
-        bus1.passengerBoarding(kid);
-        bus1.passengerBoarding(adult);
-        bus1.passengerBoarding(adult);
+        multiplePassengerBoarding(bus1, kid, 4);
+        multiplePassengerBoarding(bus1, adult, 15);
 
         bus1.depart();
         bus1.accelerate();
@@ -53,11 +59,21 @@ public class BusTest {
         bus1.slowDown();
         bus1.stop();
 
-        bus1.passengerGetOff(kid);
-        bus1.passengerGetOff(kid);
-        bus1.passengerGetOff(kid);
-        bus1.passengerGetOff(kid);
+        multiplePassengerGetOff(bus1, kid, 4);
 
+        bus1.depart();
+        bus1.stop();
+
+        multiplePassengerGetOff(bus1, adult, 10);
+
+        bus1.depart();
+        bus1.stop();
+
+        multiplePassengerGetOff(bus1, adult, 6);
+
+        bus1.getInfo();
+
+        company1.getInfo();
     }
 
 

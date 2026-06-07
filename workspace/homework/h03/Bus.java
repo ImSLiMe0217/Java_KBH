@@ -56,6 +56,11 @@ public class Bus extends Vehicle {
         super.printCurrentStatus();
     }
 
+    private void refreshTotalPassengerCount() {
+        totalPassengerCount = 0;
+        for (int count : passengerCount) totalPassengerCount += count;
+    }
+
     void stop() {
         super.stop();
         stationIdx++;
@@ -66,10 +71,10 @@ public class Bus extends Vehicle {
 
     void passengerBoarding(Passenger p) {
         int idx = ageCheck(p);
-        for (int count : passengerCount) totalPassengerCount += count;
         if (totalPassengerCount != getMaxSeat()) {
             passengerCount[idx]++;
             getPaid(p);
+            refreshTotalPassengerCount();
         } else {
             System.out.println("빈 좌석이 없습니다. 다음 버스를 이용해 주십시오.");
         }
@@ -77,14 +82,34 @@ public class Bus extends Vehicle {
 
     void passengerGetOff(Passenger p) {
         int idx = ageCheck(p);
-        if (totalPassengerCount != 0) {
+        if (passengerCount[idx] != 0) {
             passengerCount[idx]--;
+            refreshTotalPassengerCount();
         } else {
             System.out.println("내릴 승객이 없습니다.");
         }
     }
 
     void getInfo() {
+        String currentStation = stations[stationIdx];
+        String nextStation;
+        if (stationIdx != stations.length - 1) {
+            nextStation = stations[stationIdx + 1];
+        } else {
+            nextStation = stations[0];
+        }
 
+        String text;
+        if (getStat().equals("주행 중...")) {
+            text = String.format("%s ---> %s", currentStation, nextStation);
+        } else {
+            text = String.format("%s", currentStation);
+        }
+        System.out.printf("\n%s번 버스정보\n상태\t: %s\n현재 위치: %s\n빈 좌석\t: %d석\n현재 수익: %d원\n",
+                busNo, getStat(), text, getMaxSeat() - totalPassengerCount, income);
+    }
+
+    public int getIncome() {
+        return income;
     }
 }
