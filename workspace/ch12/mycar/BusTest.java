@@ -1,4 +1,4 @@
-package ch12.car.h03;
+package ch12.mycar;
 
 public class BusTest {
     // 승객 탑승 및 하차기능 구현 -> (완료 0606)

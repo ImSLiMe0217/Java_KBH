@@ -1,4 +1,4 @@
-package ch12.car.h03;
+package ch12.mycar;
 
 public class Passenger {
     private int age;

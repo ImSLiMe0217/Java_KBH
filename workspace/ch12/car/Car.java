@@ -12,15 +12,17 @@ public class Car {
     }
 
     // 10km/h 가속
-    void speedUp() {
-        speed += 10;
-        System.out.printf("현재 속도: %dkm/h\n", speed);
+    void speedUp(int speed) {
+        this.speed += speed;
+        System.out.printf("현재 속도: %dkm/h\n", this.speed);
     }
 
     // 10km/h 가속
-    void slowDown() {
-        speed -= 10;
-        System.out.printf("현재 속도: %dkm/h\n", speed);
+
+
+    void slowDown(int speed) {
+        this.speed -= speed;
+        System.out.printf("현재 속도: %dkm/h\n", this.speed);
     }
 
     // 기어 1단 증가
@@ -39,13 +41,13 @@ public class Car {
     void start() {
         System.out.printf("%s: 출발!\n", model);
         gearUp();
-        speedUp();
+        speedUp(10);
     }
 
     // 정지
     void stop() {
         while (speed > 0) {
-            slowDown();
+            slowDown(10);
         }
         System.out.println("정지!");
         gear = 0;

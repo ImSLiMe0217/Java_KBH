@@ -26,7 +26,7 @@ public class BusTest {
 
 
         String[] busRoute1 = {"버스종점", "ㅎㅎ아파트", "ㅇㅇ초등학교 앞", "ㅁㅁ대학교"};
-        String[] busRoute2 = {"버스종점", "지하철역 앞", "ㅁㅁ대학교 앞", "마을회관"};
+        String[] busRoute2 = {"버스종점", "지하철역 앞", "ㅇㅇ고등학교 앞", "마을회관"};
 
         Bus bus1 = new Bus("전기버스", "시내버스",
                 20, 60, 4,
@@ -62,11 +62,17 @@ public class BusTest {
         multiplePassengerGetOff(bus1, kid, 4);
 
         bus1.depart();
+        bus1.accelerate();
+        bus1.gearUp();
+        bus1.accelerate();
         bus1.stop();
 
         multiplePassengerGetOff(bus1, adult, 10);
 
         bus1.depart();
+        bus1.accelerate();
+        bus1.gearUp();
+        bus1.accelerate();
         bus1.stop();
 
         multiplePassengerGetOff(bus1, adult, 6);
