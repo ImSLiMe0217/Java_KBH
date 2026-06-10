@@ -5,9 +5,9 @@ import java.time.LocalTime;
 public class Bus extends Vehicle {
     private String busNo;
     private String[] stations;
+    private int stationIdx;
     private int[] passengerCount = new int[4];
     private int totalPassengerCount;
-    private int stationIdx;
     private int[] fareListDayTime = {500, 720, 1350, 500},
             fareListNightTime = {0, 1000, 2000, 0};
     private int income;

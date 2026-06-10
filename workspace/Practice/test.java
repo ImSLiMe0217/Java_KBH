@@ -2,13 +2,19 @@ package Practice;
 
 public class test {
     void main() {
-        String s1 = "Hello";
-        System.out.println(s1 == "Hello");
+        int a = 4;
+        int b = 5;
 
-        String s2 = new String("Hello");
-        System.out.println(s2 == "Hello");
+        System.out.println(4 + 5);
 
-        String s3 = "Hello";
-        System.out.println(s1 == s3);
+        String str = "Hello";
+
+        System.out.println(str.toUpperCase());
+
+        String str1 = Integer.toString(a);
+
+        int temp = Integer.parseInt(Integer.toString(12) + Integer.toString(3));
+        System.out.println(temp);
+        
     }
 }
