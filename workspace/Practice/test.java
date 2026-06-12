@@ -2,19 +2,18 @@ package Practice;
 
 public class test {
     void main() {
-        int a = 4;
-        int b = 5;
+        String str1 = "aaaaa";
+        String str2 = "bbbbb";
 
-        System.out.println(4 + 5);
+        String answer = "";
+        for (int i = 0; i < str1.length(); i++) {
+            answer += str1.charAt(i);
+            answer += str2.charAt(i);
+        }
+        System.out.println(answer);
 
-        String str = "Hello";
+        System.out.println(Math.powExact(2, 3));
 
-        System.out.println(str.toUpperCase());
-
-        String str1 = Integer.toString(a);
-
-        int temp = Integer.parseInt(Integer.toString(12) + Integer.toString(3));
-        System.out.println(temp);
         
     }
 }
