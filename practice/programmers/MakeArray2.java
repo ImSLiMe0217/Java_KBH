@@ -49,7 +49,7 @@ public class MakeArray2 {
 
     static void main() {
         Random random = new Random();
-        int l = random.nextInt(1, 1000001);
+        int l = random.nextInt(1, 500001);
         int r = random.nextInt(l, 1000001);
 
         System.out.println(Arrays.toString(mySolution(l, r)));
