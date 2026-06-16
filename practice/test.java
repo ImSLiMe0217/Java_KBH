@@ -1,18 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class test {
     static void main() {
-        boolean t = true;
-        boolean f = false;
 
-        int a = 1, b = 2, c = 3, d = 0;
-        int[] arr = {a, b, c, d};
-        Arrays.sort(arr);
+        String str = "12345";
 
-        ArrayList<Integer> idxList = new ArrayList<Integer>();
-        idxList.stream().count();
-        idxList.isEmpty();
-        
+        IntStream stream = str.chars().map(c -> c - '0');
+        int sum = str.chars().map(c -> c - '0').sum();
     }
 }

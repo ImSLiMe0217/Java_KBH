@@ -1,73 +1,11 @@
-DROP TABLE IF EXISTS reply;
-DROP TABLE IF EXISTS post;
-DROP TABLE IF EXISTS member;
+-- 주말 과제입니다.
+-- 각 번호 아래에 sql을 작성해서 테스트 하세요.
 
-DROP DATABASE IF EXISTS board_db;
-
-CREATE DATABASE IF NOT EXISTS board_db;
-
-USE board_db;
-
-CREATE TABLE IF NOT EXISTS member (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    phone CHAR(12),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP()
-);
-
-CREATE TABLE IF NOT EXISTS post (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    member_id INT,
-    title VARCHAR(200) NOT NULL,
-    content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
-    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE SET NULL
-);
-
-CREATE TABLE IF NOT EXISTS reply (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    post_id INT NOT NULL,
-    member_id INT NOT NULL,
-    content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
-    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
-    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE
-);
-
-
-INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', DEFAULT);
-INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, '2025-05-10 12:13:45');
-INSERT INTO member (email, password, name, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', '2026-04-29 13:34:32');
-INSERT INTO member (email, password, name, phone, created_at) VALUES
-    ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', '2026-05-29 13:34:32'),
-    ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', '2026-06-05 14:34:12');
-
--- INSERT INTO member VALUES (NULL, 'qudgh0217@naver.com', 'qwer1234', '김병호', '01011111111', '2025-02-05 10:23:45');
--- INSERT INTO member VALUES (NULL, 'rev0217@naver.com', 'qwer1234', 'Rev레브', NULL, '2025-04-16 11:33:51');
--- INSERT INTO member (email, password, name, created_at) VALUES ('slime0217@naver.com', 'qwer1234', '슬라임', '2025-05-13 09:13:15');
--- INSERT INTO member (email, password, name, phone, created_at) 
--- VALUES
---     ('assassin0217@naver.com', 'qwer1234', '지나가던슬라임', '01022222222', '2026-01-04 05:51:44'),
---     ('bh0217@gmail.com', 'qwer1234', '슬라임이당', '01033333333', '2026-02-17 09:21:51');
-
--- 게시글 데이터 삽입
-INSERT INTO post (member_id, title, content, created_at)VALUES (1, '첫 번째 게시글', '안녕하세요. 반갑습니다.', '2026-05-23 12:33:54');
-INSERT INTO post (member_id, title, content, created_at)VALUES (2, '질문 있습니다', '데이터베이스 기초에 대한 질문입니다.', '2026-05-26 14:50:45');
-INSERT INTO post (member_id, title, content, created_at)VALUES (1, '두 번째 게시글', '오늘 날씨가 아주 좋습니다.', '2026-05-27 02:03:14');
-INSERT INTO post (member_id, title, content, created_at)VALUES (2, 'MySQL 설치 오류 해결방법', '설치 중 Configurator 단계에서 오류가 날 때 대처법 공유합니다.', '2026-05-29 15:30:24');
-INSERT INTO post (member_id, title, content, created_at)VALUES (3, '자기 소개', '안녕하세요 하롱이입니다.', '2026-06-12 13:40:33');
-
--- 댓글 데이터 삽입
-INSERT INTO reply (post_id, member_id, content)VALUES (1, 2, '환영합니다!');
-INSERT INTO reply (post_id, member_id, content)VALUES (1, 3, '반가워요~');
-INSERT INTO reply (post_id, member_id, content)VALUES (2, 1, '어떤 부분이 궁금하신가요?');
-INSERT INTO reply (post_id, member_id, content)VALUES (4, 3, '정말 유용한 정보네요. 감사합니다!');
-INSERT INTO reply (post_id, member_id, content)VALUES (4, 1, '저도 이 방법으로 해결했습니다.');
-
+-- 1. post 테이블에 조회수(view_count) 컬럼을 추가하세요.(4바이트 정수형, NOT NULL, 기본값 0)
 ALTER TABLE post ADD COLUMN view_count INT NOT NULL DEFAULT 0;
 
+-- 2. post 테이블에 샘플 게시글 20개를 추가하세요.
+-- 조회수와 작성일은 기본값(CURRENT_TIMESTAMP) 대신 각각 다른 값으로 직접 입력하세요.
 INSERT INTO post (member_id, title, content, created_at, view_count) VALUES
   (1, '세 번째 게시글', '오늘도 자바 공부를 열심히 하고 있습니다.', '2026-06-12 13:00:00', 15),
   (2, '자바 복습 방법 질문', '자바를 처음 배우는데 복습은 어떻게 하는게 좋을까요?', '2026-06-12 14:00:00', 5),
@@ -76,14 +14,14 @@ INSERT INTO post (member_id, title, content, created_at, view_count) VALUES
   (5, '배열과 리스트의 차이', 'ArrayList와 일반 배열의 주요 차이점을 아시는 분 계신가요?', '2026-06-12 17:00:00', 50),
   (1, '네 번째 게시글', '날씨가 흐리네요. 비가 올 것 같습니다.', '2026-06-12 18:00:00', 4),
   (2, '자바 스터디원 모집합니다', '자바 기초 문법 같이 공부할 스터디원 모집합니다.', '2026-06-12 19:00:00', 12),
-  (3, '클래스와 객체 차이점', '붕어빵 틀과 붕어빵의 비유가 잘 이해되지 않아요.', DEFAULT, 30),
-  (4, '자바 단축키 꿀팁', 'IntelliJ에서 자주 쓰는 유용한 단축키들 공유합니다.', DEFAULT, 17),
-  (5, '반복문 break와 continue', '반복문에서 break와 continue의 차이점 정리입니다.', DEFAULT, 42),
+  (3, '클래스와 객체 차이점', '붕어빵 틀과 붕어빵의 비유가 잘 이해되지 않아요.', '2026-06-12 20:00:00', 30),
+  (4, '자바 단축키 꿀팁', 'IntelliJ에서 자주 쓰는 유용한 단축키들 공유합니다.', '2026-06-12 21:00:00', 17),
+  (5, '반복문 break와 continue', '반복문에서 break와 continue의 차이점 정리입니다.', '2026-06-12 22:00:00', 42),
   (1, '다섯 번째 게시글', '자바 예제 문제를 푸는 재미에 푹 빠졌습니다.', '2026-06-13 01:00:00', 9),
-  (2, '메서드 오버로딩과 오버라이딩', '이름은 비슷한데 개념이 완전히 달라서 정리해 봤어요.', DEFAULT, 28),
-  (3, '자바 예외 처리 가이드', '프로그램이 멈추지 않도록 예외 처리하는 방법 공부 중입니다.', DEFAULT, 19),
-  (4, '자바 변수 명명 규칙', '변수 이름을 지을 때 camelCase를 지키는 것이 좋네요.', DEFAULT, 11),
-  (5, '자바 상속 개념 이해하기', '부모 클래스의 변수와 메서드를 자식이 물려받는 예제입니다.', DEFAULT, 35),
+  (2, '메서드 오버로딩과 오버라이딩', '이름은 비슷한데 개념이 완전히 달라서 정리해 봤어요.', '2026-06-13 02:00:00', 28),
+  (3, '자바 예외 처리 가이드', '프로그램이 멈추지 않도록 예외 처리하는 방법 공부 중입니다.', '2026-06-13 03:00:00', 19),
+  (4, '자바 변수 명명 규칙', '변수 이름을 지을 때 camelCase를 지키는 것이 좋네요.', '2026-06-13 04:00:00', 11),
+  (5, '자바 상속 개념 이해하기', '부모 클래스의 변수와 메서드를 자식이 물려받는 예제입니다.', '2026-06-13 05:00:00', 35),
   (1, '여섯 번째 게시글', '자바 조건문 switch-case 문 실습을 하고 있습니다.', '2026-06-13 06:00:00', 7),
   (2, '안녕 테스트 글', '이 본문에는 안녕이라는 단어가 들어갑니다. 반갑습니다.', '2026-06-13 07:00:00', 13),
   (3, '추상 클래스와 인터페이스', '둘 다 추상 메서드를 가지는데 어떤 상황에 구분해서 쓸까요?', '2026-06-13 08:00:00', 25),
@@ -123,3 +61,34 @@ INSERT INTO reply (post_id, member_id, content, created_at) VALUES
   (3, 3, '유익한 내용이네요.', '2026-05-27 15:00:00'),
   (3, 5, '저도 참고해야겠습니다.', '2026-05-27 16:00:00'),
   (3, 1, '댓글 주신 분들 모두 감사드립니다.', '2026-05-27 17:00:00');
+
+-- 4. post 테이블에서 조회수(view_count)가 10회 이상인 게시글의 제목, 조회수를 조회하세요.
+SELECT title, view_count
+FROM post
+WHERE view_count >= 10;
+
+-- 5. post 테이블에서 2번 회원(member_id = 2)이 작성한 모든 게시글의 작성자, 제목, 작성일을 최신순(작성일 내림차순)으로 조회하세요.
+SELECT member_id, title, created_at
+FROM post
+WHERE member_id = 2
+ORDER BY created_at DESC;
+
+-- 6. post 테이블에서 본문(content)에 '안녕'이 들어간 게시글 목록의 모든 컬럼을 최신순(작성일 내림차순)으로 조회하세요.
+SELECT *
+FROM post
+WHERE content LIKE '%안녕%'
+ORDER BY created_at DESC;
+
+-- 7. reply 테이블에서 3번 게시글(post_id = 3)에 달린 모든 댓글의 게시글 id, 본문, 작성일을 오래된 순(작성일 오름차순)으로 조회하세요.
+SELECT post_id, content, created_at
+FROM reply
+WHERE post_id = 3
+ORDER BY created_at ASC;
+
+-- 8. 1페이지당 5개씩 게시글 목록을 보여줄 때 조회수(view_count)가 높은 순서대로 정렬하고 3페이지 게시글 목록의 id, 제목, 조회수를 조회하세요.
+SELECT id, title, view_count
+FROM post
+ORDER BY view_count DESC
+LIMIT 10, 5;
+
+-- 과제가 완료되면 본인의 github 레포지토리에 push 하세요.
