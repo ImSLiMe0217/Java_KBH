@@ -21,11 +21,12 @@ public class JdbcMemberTest {
 //        selectALLMembers();
 //        updateMember(1, "3333", "test", "010XXXXXXXX");
 //        selectALLMembers();
-//        deleteMember(2);
+        deleteMember(1);
 //        selectALLMembers();
-        login("haru@gmail.com", "123");
-        login("haru@gmail.com", "pwd123");
-        login("haru@gmail.com'OR'1' = '1", "dafeadafevve"); // sql injection
+
+//        login("haru@gmail.com", "123");
+//        login("haru@gmail.com", "pwd123");
+//        login("haru@gmail.com'OR'1' = '1", "dafeadafevve"); // sql injection
     }
 
     public static void login(String email, String password) {
@@ -160,7 +161,7 @@ public class JdbcMemberTest {
         }
     }
 
-    // 회원 삭제
+    // 회원 삭제 (게시글도 같이 삭제)
     public static void deleteMember(int id) {
         Connection conn = null;
         Statement stmt = null;
@@ -169,9 +170,21 @@ public class JdbcMemberTest {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             stmt = conn.createStatement();
 
-            int affectedRows = stmt.executeUpdate("DELETE FROM member WHERE id = " + id);
+            conn.setAutoCommit(false); // Transaction 자동 commit 중지
+
+            int affectedRows = stmt.executeUpdate("DELETE FROM post WHERE member_id = " + id);
+            System.out.printf("회원의 모든 게시글을 삭제 완료. %d건 반영됨\n", affectedRows);
+
+            Thread.sleep(1000 * 10); // 10초간 휴식
+
+            affectedRows = stmt.executeUpdate("DELETE FROM member WHERE id = " + id);
+            System.out.printf("회원 삭제 완료. %d건 반영됨\n", affectedRows);
+
+            // 모든 작업 완료
+            conn.commit();
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
+            try {if (conn != null) conn.rollback();} catch (Exception e2) {} // 에러 발생 시 모든 내용을 변경 전으로 롤백
             e.printStackTrace(); // 에러 목록들 출력
         } finally {
             // 생성된 리소스 해체
