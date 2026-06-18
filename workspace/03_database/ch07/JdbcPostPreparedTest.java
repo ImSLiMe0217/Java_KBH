@@ -2,10 +2,10 @@ package ch07;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-public class JdbcPostTest {
+public class JdbcPostPreparedTest {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/board_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
     private static final String DB_USER = "user1";
     private static final String DB_PASSWORD = "1111";
@@ -25,44 +25,63 @@ public class JdbcPostTest {
     // 등록(C)
     static void insert(int memberId, String title, String content) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            String query = String.format("INSERT INTO post (member_id, title, content) VALUES (%d, '%s', '%s')", memberId, title, content);
-            int affectedRows = stmt.executeUpdate(query);
+            String sql = "INSERT INTO post (member_id, title, content) VALUES (?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, title);
+            pstmt.setString(3, content);
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.printf("게시글 등록 완료: %d건 반영됨\n", affectedRows);
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
         } finally {
             // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
 
     // 목록 조회(R)
     static void findAll() {
+        findAll("");
+    }
+
+    static void findAll(String keyword) {
+        String sql = "SELECT id, member_id, title, view_count, created_at FROM post";
+
+        boolean hasKeyword = keyword != null && !keyword.isEmpty();
+        if (hasKeyword) {
+            sql += "WHERE title LIKE ? OR content LIKE ?";
+        }
+
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            rs = stmt.executeQuery("SELECT * FROM post");
+            pstmt = conn.prepareStatement(sql);
+            if (hasKeyword) {
+                pstmt.setString(1, "%" + keyword + "%");
+                pstmt.setString(2, "%" + keyword + "%");
+            }
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int member_id = rs.getInt("member_id");
                 String title = rs.getString("title");
-                String content = rs.getString("content");
+                int viewCount = rs.getInt("view_count");
+                String createdAt = rs.getString("created_at");
 
-                System.out.printf("ID: %d\tPost_ID: %d\t제목: %-30s\t내용: %s\n", id, member_id, title, content);
+                System.out.printf("ID: %d\tPost_ID: %d\t제목: %-30s\t조회수: %d\t 게시일: %s\n", id, member_id, title, viewCount, createdAt);
             }
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
@@ -70,7 +89,7 @@ public class JdbcPostTest {
         } finally {
             // 생성된 리소스 해체
             try {if (rs != null) rs.close();} catch (Exception e) {}
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
@@ -78,23 +97,18 @@ public class JdbcPostTest {
     // 한건 조회(R)
     static void findById(int id) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            rs = stmt.executeQuery("SELECT * FROM post WHERE id = " + id);
+            String sql = "SELECT * FROM post WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
 
-//            while (rs.next()) {
-//                int post_id = rs.getInt("id");
-//                int member_id = rs.getInt("member_id");
-//                String title = rs.getString("title");
-//                String content = rs.getString("content");
-//
-//                System.out.printf("ID: %d\tPost_ID: %d\t제목: %-30s\t내용: %s\n", post_id, member_id, title, content);
-//            }
+            rs = pstmt.executeQuery();
+
             rs.next();
             int post_id = rs.getInt("id");
             int member_id = rs.getInt("member_id");
@@ -109,7 +123,7 @@ public class JdbcPostTest {
         } finally {
             // 생성된 리소스 해체
             try {if (rs != null) rs.close();} catch (Exception e) {}
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
@@ -117,14 +131,18 @@ public class JdbcPostTest {
     // 수정(U)
     static void update(int id, String title, String content) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            String query = String.format("UPDATE post SET title = '%s', content = '%s' WHERE id = %d", title, content, id);
-            int affectedRows = stmt.executeUpdate(query);
+            String sql = "UPDATE post SET title = ?, content = ? WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setInt(3, id);
+
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.printf("게시글 수정 완료: %d건 반영됨\n", affectedRows);
 
@@ -133,7 +151,7 @@ public class JdbcPostTest {
 //            e.printStackTrace(); // 에러 목록들 출력
         } finally {
             // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
@@ -141,14 +159,16 @@ public class JdbcPostTest {
     // 삭제(D)
     static void delete(int id) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            String query = String.format("DELETE FROM post WHERE id = %d", id);
-            int affectedRows = stmt.executeUpdate(query);
+            String sql = "DELETE FROM post WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.printf("게시글 삭제 완료: %d건 반영됨\n", affectedRows);
 
@@ -157,21 +177,23 @@ public class JdbcPostTest {
 //            e.printStackTrace(); // 에러 목록들 출력
         } finally {
             // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
 
     static void deleteByMemberId(int memberId) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
 
-            String query = String.format("DELETE FROM post WHERE member_id = %d", memberId);
-            int affectedRows = stmt.executeUpdate(query);
+            String sql = "DELETE FROM post WHERE member_id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.printf("게시글 삭제 완료: %d건 반영됨\n", affectedRows);
 
@@ -180,7 +202,7 @@ public class JdbcPostTest {
 //            e.printStackTrace(); // 에러 목록들 출력
         } finally {
             // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
+            try {if (pstmt != null) pstmt.close();} catch (Exception e) {}
             try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
