@@ -95,7 +95,7 @@ public class ConnectionPoolTest {
             pstmt.setString(3, content);
             int affectedRows = pstmt.executeUpdate();
 
-            System.out.printf("게시글 등록 완료: %d건 반영됨\n", affectedRows);
+//            System.out.printf("게시글 등록 완료: %d건 반영됨\n", affectedRows);
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
         } finally {

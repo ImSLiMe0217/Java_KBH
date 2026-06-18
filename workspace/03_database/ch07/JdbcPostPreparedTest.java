@@ -4,8 +4,13 @@ import java.sql.*;
 
 public class JdbcPostPreparedTest {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/board_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-    private static final String DB_USER = "user1";
+    private static final String DB_USER = "user2";
     private static final String DB_PASSWORD = "1111";
+
+//    private static final ResourceBundle bundle = ResourceBundle.getBundle("hikari");
+//    private static final String DB_URL = bundle.getString("jdbcUrl");
+//    private static final String DB_USER = bundle.getString("username");
+//    private static final String DB_PASSWORD = bundle.getString("password");
 
     public static void main(String[] args) {
 //        findAll();
@@ -39,7 +44,7 @@ public class JdbcPostPreparedTest {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, email);
             pstmt.setString(2, password);
-            
+
             // 3. SQL 실행 (SELECT)
             // 4. 결과 수신 (ResultSet 객체 반환)
             rs = pstmt.executeQuery();
@@ -80,7 +85,7 @@ public class JdbcPostPreparedTest {
             pstmt.setString(3, content);
             int affectedRows = pstmt.executeUpdate();
 
-            System.out.printf("게시글 등록 완료: %d건 반영됨\n", affectedRows);
+//            System.out.printf("게시글 등록 완료: %d건 반영됨\n", affectedRows);
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
         } finally {
