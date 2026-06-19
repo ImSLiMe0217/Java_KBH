@@ -1,4 +1,4 @@
-package ch07;
+package ch01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,27 +19,29 @@ public class JdbcMemberTest {
     private static final String DB_PASSWORD = "1111";
 
     static void main() {
+        try {
+            insertMember("haru" + (int) (Math.random() * 1000) + "@gmail.com", "1234", "뉴하루", "010-2222-3333", 2); // 회원 등록
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            insertMember("haru" + (int) (Math.random() * 1000) + "@gmail.com", "1234", "뉴하루"
+                    , "010-2222-3333".replace("-", ""), 2); // 회원 등록
+        }
 //        selectALLMembers();
-//        insertMember("haru" + (int) (Math.random() * 1000) + "@gmail.com", "1234", "뉴하루", "01022221111", 2);
 //        selectALLMembers();
 //        updateMember(1, "3333", "test", "010XXXXXXXX");
 //        selectALLMembers();
-        deleteMember(1);
+//        deleteMember(1);
 //        selectALLMembers();
 
-        login("haru@gmail.com", "123");
+//        login("haru@gmail.com", "123");
 //        login("haru@gmail.com", "pwd123");
 //        login("haru@gmail.com'OR'1' = '1", "dafeadafevve"); // sql injection
     }
 
     public static void login(String email, String password) {
 
-        if (email == null || email.isBlank() || password == null || password.isBlank()) {
-            throw new LoginFailException("email과 password를 확인하세요.");
-        }
-        String sql = String.format("SELECT * FROM member WHERE email = '%s' AND password = '%s'", email, password);
+        String sql = "SELECT * FROM member WHERE email = '" + email + "' AND password = '" + password + "'";
 
-        // try 블록 실행도중 에러 발생 -> catch 블록 실행 -> 이후 finall 블록은 try에서 오류가 나든 말든 무조건 실행됨
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -62,21 +64,11 @@ public class JdbcMemberTest {
 
     // 회원 목록 조회
     public static void selectALLMembers() {
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        String sql = "SELECT * FROM member";
 
-        // try 블록 실행도중 에러 발생 -> catch 블록 실행 -> 이후 finall 블록은 try에서 오류가 나든 말든 무조건 실행됨
-        try {
-            // 데이터 베이스 연결
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-            // SQL 실행 객체 생성
-            stmt = conn.createStatement();
-
-            // 3. SQL 실행 (SELECT)
-            // 4. 결과 수신 (ResultSet 객체 반환)
-            rs = stmt.executeQuery("SELECT * FROM member");
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -89,61 +81,40 @@ public class JdbcMemberTest {
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
 //            e.printStackTrace(); // 에러 목록들 출력
-        } finally {
-            // 생성된 리소스 해체
-            try {if (rs != null) rs.close();} catch (Exception e) {}
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
-            try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
 
     // 회원 등록
-    public static void insertMember(String email, String pw, String name, String phone, int recommenderId) {
-        Connection conn = null;
-        Statement stmt = null;
+    public static void insertMember(String email, String pw, String name, String phone, int recommenderId) throws IllegalArgumentException {
+        if (phone.length() > 11) {
+            throw new IllegalArgumentException("phone은 11자 이내여야 합니다.");
+        }
 
-        // try 블록 실행도중 에러 발생 -> catch 블록 실행 -> 이후 finall 블록은 try에서 오류가 나든 말든 무조건 실행됨
-        try {
-            // 데이터 베이스 연결
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        String sql = String.format("INSERT INTO member (email, password, name, phone, recommender_id) VALUES ('%s', '%s', '%s', '%s', %d)", email, pw, name, phone, recommenderId);
 
-            // SQL 실행 객체 생성
-            stmt = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement()) {
 
-            // 3. SQL 실행 (SELECT)
-            // 4. 결과 수신 (ResultSet 객체 반환)
-//            String query = String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%d\")", email, pw, name, phone, recommenderId);
-            int affectedRows = stmt.executeUpdate("INSERT INTO member (email, password, name, phone, recommender_id) " + "VALUES ('" + email + "', '" + pw + "', '" + name + "', '" + phone + "', " + recommenderId + ")");
-            //'" + email + "', '" + password + "', '" + name + "', '" + phone + "', " + recommenderId + ")"
+            int affectedRows = stmt.executeUpdate(sql);
             System.out.printf("회원 등록 완료: %d건 반영됨", affectedRows);
 
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
             e.printStackTrace(); // 에러 목록들 출력
-        } finally {
-            // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
-            try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
 
     // 회원 정보 수정
     public static void updateMember(int id, String password, String name, String phone) {
-        Connection conn = null;
-        Statement stmt = null;
+        String sql = String.format("UPDATE member SET password = '%s', name = '%s', phone = '%s' WHERE id = %d", password, name, phone, id);
 
-        try {
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            stmt = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement()) {
 
-            int affectedRows = stmt.executeUpdate("UPDATE member SET password = '" + password + "', name = '" + name + "', phone = '" + phone + "' WHERE id = " + id);
+            int affectedRows = stmt.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println("에러발생: " + e.getMessage());
             e.printStackTrace(); // 에러 목록들 출력
-        } finally {
-            // 생성된 리소스 해체
-            try {if (stmt != null) stmt.close();} catch (Exception e) {}
-            try {if (conn != null) conn.close();} catch (Exception e) {}
         }
     }
 

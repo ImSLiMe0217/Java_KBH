@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS member (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    phone CHAR(12),
+    phone CHAR(11),
     recommender_id INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
     FOREIGN KEY (recommender_id) REFERENCES member(id) ON DELETE SET NULL
