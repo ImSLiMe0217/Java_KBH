@@ -4,6 +4,7 @@ public class PerformanceTest {
     void main() {
         int loopTimes = 1000000;
         MyArray list = new MyArray(loopTimes);
+//        MyLinkedList list = new MyLinkedList();
 
         long start = System.currentTimeMillis();
         addFirst(list, loopTimes);
