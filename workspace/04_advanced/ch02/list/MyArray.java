@@ -1,4 +1,4 @@
-package ch02.array;
+package ch02.list;
 
 /**
  * 배열의 불편한 점

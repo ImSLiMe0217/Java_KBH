@@ -1,4 +1,4 @@
-package ch02.array;
+package ch02.list;
 
 public class MyArrayTest {
     void main() {
@@ -40,6 +40,7 @@ public class MyArrayTest {
 
         // MyArray에 담긴 요소의 갯수를 출력한다.
         System.out.println("갯수: " + arr.size());
+
 
     }
 }
