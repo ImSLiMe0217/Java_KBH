@@ -7,5 +7,8 @@ public class test {
 
         IntStream stream = str.chars().map(c -> c - '0');
         int sum = str.chars().map(c -> c - '0').sum();
+
+        char[] aaa = {'a', 'a', 'a'};
+        System.out.println(aaa.toString());
     }
 }

@@ -9,6 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/practice" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/workspace/04_advanced" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/workspace/exam" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/workspace/homework" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/workspace/programmers" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
