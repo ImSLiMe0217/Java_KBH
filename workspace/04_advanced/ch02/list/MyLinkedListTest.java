@@ -7,7 +7,7 @@ public class MyLinkedListTest {
 
         // MyLinkedList에 "데이터 - 0"부터 "데이터 - 4"까지의문자열을 담는다.
         for (int i = 0; i < 5; i++) {
-            list.appendTo("데이터 - " + i);
+            list.add("데이터 - " + i);
         }
 
         // MyLinkedList에 담긴 모든 요소를 출력한다.
@@ -26,13 +26,13 @@ public class MyLinkedListTest {
         System.out.println(list);
 
         // index 2에 "데이터 - 5"를 삽입한다.
-        list.appendTo(2, "데이터 - 5");
+        list.add(2, "데이터 - 5");
 
         //MyLinkedList에 담긴 모든 요소를 출력한다.
         System.out.println(list);
 
         // 마지막 위치에 "데이터 - 6"을 추가한다.
-        list.appendTo("데이터 - 6");
+        list.add("데이터 - 6");
 
         // MyLinkedList에 담긴 모든 요소를 출력한다.
         System.out.println(list);

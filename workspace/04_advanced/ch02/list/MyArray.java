@@ -6,7 +6,7 @@ package ch02.list;
  * 생성된 배열의 길이를 변경할 수 없음
  * 요소 추가, 삭제, 변경이 어려움
  */
-public class MyArray {
+public class MyArray implements MyList {
     /**
      * 내부적으로 요소를 저장하는 배열 선언
      */
@@ -40,8 +40,8 @@ public class MyArray {
      *
      * @param elem 배열의 추가되는 원소
      */
-    public void append(Object elem) {
-        append(count, elem);
+    public void add(Object elem) {
+        add(count, elem);
     }
 
     /**
@@ -50,7 +50,7 @@ public class MyArray {
      * @param index 삽입할 위치
      * @param elem  삽입할 요소
      */
-    public void append(int index, Object elem) {
+    public void add(int index, Object elem) {
         if (index < 0 || index > count) {
             String errorMessage = String.format("Index %d is not available", index);
             throw new ArrayIndexOutOfBoundsException(errorMessage);
@@ -70,7 +70,7 @@ public class MyArray {
      *
      * @param index 대상 위치
      */
-    public void delete(int index) {
+    public void remove(int index) {
         if (index >= count) {
             String errorMessage = String.format("Index %d is exceeded Array's Length %d", index, count);
             throw new ArrayIndexOutOfBoundsException(errorMessage);
@@ -88,7 +88,7 @@ public class MyArray {
      * @param index 반환할 데이터의 위치
      * @return 지정한 위치의 데이터
      */
-    public Object getElem(int index) {
+    public Object get(int index) {
         if (index >= count) {
             String errorMessage = String.format("Index %d is exceeded Array's Length %d", index, count);
             throw new ArrayIndexOutOfBoundsException(errorMessage);

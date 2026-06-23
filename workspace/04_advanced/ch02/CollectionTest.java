@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ArrayListTest {
+public class CollectionTest {
     void main() {
 //        String[] fruits = {"바나나", "사과", "오렌지", "파인애들", "수박"};
 //        ArrayList<String> fruits = new ArrayList<>();
