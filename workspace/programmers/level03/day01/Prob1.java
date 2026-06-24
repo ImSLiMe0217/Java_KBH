@@ -3,7 +3,8 @@ package level03.day01;
 import java.util.HashMap;
 import java.util.Map;
 
-// 완주하지 못한 선수
+// 알고리즘 고득점 Kit
+// 해시 - 완주하지 못한 선수
 public class Prob1 {
     public String solution(String[] participant, String[] completion) {
 
@@ -29,6 +30,8 @@ public class Prob1 {
         for (Map.Entry<String, Integer> entry : pMap.entrySet()) {
             if (entry.getValue() > 0) {notInCompletion = entry.getKey();}
         }
+
+
         return notInCompletion;
     }
 
