@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    /*
+    산술 연산자 +, -, *, /, %, **
+    */
+    let age1 = 1 + 4; // 5
+    let age2 = 1 + 4 * 5; // 21
+    let age3 = (1 + 4) * 5; // 25
+    let age4 = 9 / 4; // 2.25
+    let age5 = 9 % 4; // 1 (%, 나머지 연산자)
+    let age6 = 2 ** 3; // 8 (** 거듭제곱 연산자)
+    let age7 = '나이는 ' + age1 + ' 입니다.'; // 나이는 5 입니다. (+, 결합 연산자)
+
+    /*
+    대입 연산자 =, +=, -=, *=, /=, %=, **=
+    */
+
+    let age = 20;
+    console.log(age);
+    let year = 3 + 2; // year = 5
+    console.log(year);
+    age = age + year; // age = 20 + 5 = 25
+    console.log(age);
+    age += year; // age = age + year = 25 + 5 = 30
+    console.log(age);
+
+    /*
+    비교 연산자 >, >=, <, <=, ==, !=, ===, !==
+    */
+
+    let result1 = 1 > 2; // false
+    let result2 = 10 <= 10; // true
+    let result3 = 100 == '100'; // true
+    let result4 = 100 === '100'; // false
+    let result5 = 100 != 100; // false
+
+
+    /*
+    동등 연산자와 일치 연산자 차이
+    */
+
+    // 일치 연산자
+    // 타입과 값 모두 일치해야 true, 아니면 false
+    // 같은 내용의 객체라도 참조하는 주소값이 다르면 false
+    console.log(10 === 10, 0 === 0); // true, true
+    console.log('hello' === 'hello', 'hello' === 'Hello'); // true, false
+    console.log(true === true, false === false); // true, true
+    console.log(null === null, undefined === undefined, null === undefined);// true, true, false
+
+    // 동등연산자
+    // 타입이 같은 경우 두 값이 일치하면 true
+    // 타입이 다를 경우 참이 되는 조건
+    console.log(null == undefined); // true
+    console.log(10 == '10'); // true -> 같은 숫자일 경우는 true가 나옴
+
+    /*
+    논리 연산자 &&, ||, !
+    */
+
+    // 논리합(OR)
+    // 피연산자 둘 중 하나라도 true일 경우 true가 됨
+    let id = 'ashsdfdsa';
+    let invalidId = (id.length < 4) || (id.length > 12); // id 길이가 4보다 작거나 12보다 클 경우 true, 4 ~ 12일 경우 false
+
+    // ID 유효성 검사(4글자에서 12글자로 입력)
+
+    console.log('id 입력 조건에 맞지 않음', invalidId);
+
+    // OR 연산자의 특징
+    // 앞의 값이 truthy 라면 앞의 값을 반환
+    // 앞의 값이 falsy 라면 뒤의 값을 반환
+
+
+    // 논리곱(AND)
+    // 피연산자 둘 다 true일 경우 true가 됨
+    // length: 문자열의 글자수가 저장된 속성
+    let validId = (id != null) && (id.length >= 4); // id 값이 null이나 undefined가 아니고 4글자 이상일 경우 true
+
+    // AND 연산자의 특징
+    // 앞의 값이 truthy 라면 뒤의 값을 반환
+    // 앞의 값이 falsy 라면 앞의 값을 반환
+    let userName;
+    console.log('회원명 글자수', userName && userName.length);
+    console.log('회원명 글자수', userName?.length);  // Optional Chaining
+
+    // 부정(NOT)
+    console.log(!(10 < 100)) // -> !(true) -> false
+
+
+    // truthy와 falsy
+    /*
+    falsy
+      boolean: false
+      number: 0, NaN(Not a Number)
+      string: ''
+      null
+      undefined
+      
+    truthy: falsy 이외의 값
+    */
+  </script>
+</head>
+
+<body>
+  <h1>07-01 연산자</h1>
+</body>
+
+</html>

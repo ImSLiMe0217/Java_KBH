@@ -1,0 +1,102 @@
+:root {
+    --white: #fff;
+    --green-100: #03cc5c;
+    --green-200: #1bf008;
+    --green-300: #03cca8;
+
+    --blue-100: #e9f0fd;
+    --red-100: #ff1414;
+
+    --gray-100: #bcc3c7;
+    --gray-200: #9b9a90;
+    --gray-300: #6d7478;
+
+    --primary-color: var(--green-100);
+    --start-color: var(--green-200);
+    --end-color: var(--green-300);
+    --active-color: var(--blue-100);
+}
+
+/* 접근성 관련 CSS */
+.sr-only {
+    position: absolute;   
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: -1px;
+    padding: 0;
+    border-width: 0;
+    clip-path: inset(50%);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px;
+
+    .header {
+        margin: 30px;
+    }
+
+    .main {
+        display: flex;
+        flex-flow: column nowrap;
+        /* align-items: center; */
+
+        @media (768px < width) {
+        inline-size: 460px;
+        margin-inline: auto;
+    }
+        
+        .login-form {
+            display: flex;
+            flex-flow: column nowrap;
+            width: 100%;
+            max-width: 728px;
+            
+            .input {
+                #input-1, #input-2 {
+                    width: 100%;
+                    height: 40px;
+                    margin-bottom: 10px;
+                }
+                order: 1;
+            }
+            
+            .checkbox-wrapper{
+                display: flex;
+
+                .checkbox {
+                    flex: 1;
+                    @media (width <= 768px) {
+                        flex: none;
+                    }
+                }
+
+                .textlink-new, .switch {
+                    @media (width <= 768px) {
+                        display: none;
+                    }
+                }
+                order: 3;
+
+                @media (width <= 768px) {
+                    justify-content: end;
+                }
+            }
+
+            .button {
+                background: var(--green-100);
+                height: 50px;
+                margin-top: 15px;
+                order: 2;
+                color: var(--white);
+            }
+
+
+        }
+
+    }
+}
