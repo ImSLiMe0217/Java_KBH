@@ -57,6 +57,7 @@
   </form>
 
   <script>
+    let isIdChecked = false;
     function checkId() {
       console.log('중복 체크 시작')
       const userIdEl = document.querySelector('#userId');
@@ -68,6 +69,7 @@
         userIdEl.focus();
         return;
       }
+      isIdChecked = true;
       alert("사용 가능한 아이디입니다.");
     }
 
@@ -87,6 +89,10 @@
       };
 
       // 2. 중복 체크 여부 검증
+      if (!isIdChecked) {
+        alert('아이디 중복 체크를 완료해주세요.');
+        return;
+      }
 
       // 3. 비밀번호 검증
       const userPwd = document.querySelector('#userPwd'); // HTML 요소 중 id가 userPwd인 요소를 선택
@@ -98,16 +104,27 @@
       };
 
       // 4. 직업 검증
-      const userJob = document.querySelector('#job'); // HTML 요소 중 id가 userPwd인 요소를 선택
-      if (userPwd.value.trim() === '-- 선택하세요 --') {
+      const job = document.querySelector('select[name = job]'); // HTML 요소 중 id가 userPwd인 요소를 선택
+      if (job.value === '') {
         alert("직업을 선택해주세요");
-        userPwd.value = '';
-        userPwd.focus();
+        job.value = '';
+        job.focus();
         return;
       };
 
       // 5. 약관 동의 검증
+      const agree = document.querySelector('[type=checkbox]'); // HTML 요소 중 id가 userPwd인 요소를 선택
+      if (!agree.checked) {
+        alert("약관 동의 여부를 확인하여주십시오.");
+        return;
+      };
 
+      // 6. 성별 검증
+      const checkedGender = document.querySelector('input[name=gender]:checked'); // HTML 요소 중 id가 userPwd인 요소를 선택
+      if (checkedGender === null) {
+        let goWithoutGender = confirm("성별을 선택하지 않을 경우 일부 기능이용이 제한됩니다. 그래도 진행하시겠습니까?");
+        if (!goWithoutGender) { return; }
+      };
 
       alert("회원 가입 성공!")
     }
