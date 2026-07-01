@@ -172,8 +172,10 @@
         userId: userId.value,
         userPwd: userPwd.value,
         gender: checkedGender ? checkedGender.value : '선택안함',
-
-      }
+        job: job.value,
+        agree: agree.checked
+      };
+      console.log(member);
       alert("회원 가입 성공!")
     }
   </script>
