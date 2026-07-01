@@ -53,16 +53,19 @@
   <h1>게시글 등록</h1>
 
   <form id="writeForm" action="/" method="GET">
+    <!-- 게시글 제목 -->
     <div class="form-group">
       <label for="title" class="form-label">제목</label>
       <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
     </div>
 
+    <!-- 게시글 작성자 이름 -->
     <div class="form-group">
       <label for="writer" class="form-label">작성자</label>
       <input type="text" id="writer" name="writer" placeholder="작성자 이름">
     </div>
 
+    <!-- 게시글 카테고리 선택 -->
     <div class="form-group">
       <label for="category" class="form-label">카테고리</label>
       <select id="category" name="category">
@@ -73,6 +76,7 @@
       </select>
     </div>
 
+    <!-- 게시글 공개, 비공개 선택 -->
     <div class="form-group">
       <label class="form-label">공개 여부</label>
       <div class="radio-group">
@@ -83,6 +87,7 @@
       </div>
     </div>
 
+    <!-- 게시글 내용 -->
     <div class="form-group textarea-group">
       <label for="content" class="form-label">내용</label>
       <textarea id="content" name="content" placeholder="내용을 입력하세요"></textarea>

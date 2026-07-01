@@ -167,7 +167,13 @@
         if (!goWithoutGender) { return; }
       };
 
+      // 최종 입력한 회원 정보 출력
+      const member = {
+        userId: userId.value,
+        userPwd: userPwd.value,
+        gender: checkedGender ? checkedGender.value : '선택안함',
 
+      }
       alert("회원 가입 성공!")
     }
   </script>
