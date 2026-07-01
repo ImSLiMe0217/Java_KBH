@@ -102,22 +102,49 @@
 
     writeForm.addEventListener('submit', function (event) {
       // 회고조 과제
+      event.preventDefault();
       // 2. 제목 검증
-      // const title = document.querySelector('#title').value;
+      const title = document.querySelector('#title');
+      if (title.value.trim() === '') {
+        alert("제목을 입력해주세요.");
+        title.value = ''
+        title.focus();
+        return;
+      }
 
       // 3. 작성자 검증
-
+      const writer = document.querySelector('#writer');
+      if (writer.value.trim() === '') {
+        let postAnonymously = confirm("작성자 이름을 입력하지 않을 경우 익명으로 게시됩니다.");
+        if (!postAnonymously) { return };
+        writer.value = '익명';
+      }
 
       // 4. 카테고리 선택 검증
-
+      const category = document.querySelector('#category');
+      if (category.value === '') {
+        alert("카테고리를 선택하여주세요.");
+        return;
+      }
 
       // 5. 내용 검증
+      const content = document.querySelector('#content');
+      if (content.value.trim() === '') {
+        alert("내용을 입력해주세요");
+        content.value = ''
+        content.focus();
+        return;
+      }
 
 
       // 최종 입력한 게시글 정보 객체 생성 및 출력
-
+      const visibleType = document.querySelector('input[name = visible]');
       const post = {
-
+        title: title,
+        writer: writer,
+        category: category,
+        visibleType: visibleType.value,
+        content: content
       };
       console.log('최종 입력한 게시글 정보', post);
 
