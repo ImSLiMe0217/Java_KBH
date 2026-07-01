@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 가입</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <h1>회원 가입</h1>
+
+  <form id="joinForm" onsubmit="join(event)" action="/join" method="POST">
+    <div class="form-group">
+      <label for="userId" class="form-label">아이디</label>
+      <input type="text" id="userId" name="userId" placeholder="아이디 입력">
+      <button type="button" onclick="checkId()">중복 체크</button>
+    </div>
+
+    <div class="form-group">
+      <label for="userPwd" class="form-label">비밀번호</label>
+      <input type="password" id="userPwd" name="userPwd" placeholder="비밀번호 입력">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">성별</label>
+      <div class="gender-group">
+        <input type="radio" id="genderM" name="gender" value="male">
+        <label for="genderM">남성</label>
+        <input type="radio" id="genderF" name="gender" value="female">
+        <label for="genderF">여성</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="job" class="form-label">직업</label>
+      <select id="job" name="job">
+        <option value="">-- 선택하세요 --</option>
+        <option value="student">학생</option>
+        <option value="developer">개발자</option>
+        <option value="other">기타</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">약관 동의</label>
+      <div class="agree-group">
+        <input type="checkbox" id="agree" name="agree">
+        <label for="agree">이용약관에 동의합니다.</label>
+      </div>
+    </div>
+
+    <button type="submit">가입</button>
+  </form>
+
+  <script>
+    function checkId() {
+      console.log('중복 체크 시작')
+      const userIdEl = document.querySelector('#userId');
+      const userId = userIdEl.value;
+      console.log('입력한 ID: ', userId);
+      if (userId.trim() === '') {
+        alert("아이디를 입력해주세요.")
+        userIdEl.value = '';
+        userIdEl.focus();
+        return;
+      }
+      alert("사용 가능한 아이디입니다.");
+    }
+
+    // 회원 가입 처리
+    function join(event) {
+      console.log('회원 가입 요청');
+      console.log(event);
+      event.preventDefault();
+
+      // 1. 아이디 검증
+      const userId = document.querySelector('#userId'); // HTML 요소 중 id가 userId인 요소를 선택
+      if (userId.value.trim() === '') {
+        alert("아이디를 입력해주세요.");
+        userId.value = '';
+        userId.focus();
+        return;
+      };
+
+      // 2. 중복 체크 여부 검증
+
+      // 3. 비밀번호 검증
+      const userPwd = document.querySelector('#userPwd'); // HTML 요소 중 id가 userPwd인 요소를 선택
+      if (userPwd.value.trim() === '') {
+        alert("비밀번호를 입력해주세요.");
+        userPwd.value = '';
+        userPwd.focus();
+        return;
+      };
+
+      // 4. 직업 검증
+      const userJob = document.querySelector('#job'); // HTML 요소 중 id가 userPwd인 요소를 선택
+      if (userPwd.value.trim() === '-- 선택하세요 --') {
+        alert("직업을 선택해주세요");
+        userPwd.value = '';
+        userPwd.focus();
+        return;
+      };
+
+      // 5. 약관 동의 검증
+
+
+      alert("회원 가입 성공!")
+    }
+  </script>
+</body>
+
+</html>
