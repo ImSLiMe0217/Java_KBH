@@ -20,15 +20,30 @@ public class Prob1 {
         // ArrayList는 노래번호와 재생수를 int[] 형태로 저장한 원소를 가짐
         HashMap<String, ArrayList<int[]>> playCountMap = new HashMap<>();
         for (int i = 0; i < genres.length; i++) {
-            playCountMap.computeIfAbsent(genres[i], k -> new ArrayList<>()).add(new int[] {i, plays[i]});
+            playCountMap
+                    .computeIfAbsent(genres[i], k -> new ArrayList<>()) // genres[i]와 동일한 key가 HashMap에 있으면 그 키에 해당하는 값을 반환, 없으면 새로운 값을 생성해서 추가 후 반환
+                    .add(new int[] {i, plays[i]});  // ArrayList의 add메서드 -> 위에서 반환된 List에 노래 번호와 재생수를 원소로 가지는 int배열을 추가
         }
 
         // HashMap내의 ArrayList를 재생수를 기준으로 내림차순 정렬
         for (var entry : playCountMap.entrySet()) {
             entry.getValue().sort((int[] a, int[] b) -> {
-                if (b[1] == a[1]) {return Integer.compare(a[0], b[0]);} else {
-                    return Integer.compare(b[1], a[1]);
+                if (b[1] == a[1]) { // 같은 장르 내 재생수가 같은 노래 두 노래가 있을 경우
+                    return Integer.compare(a[0], b[0]); // 노래 번호가 빠른 순으로 정렬 (오름차순)
+                } else {
+                    return Integer.compare(b[1], a[1]); // 재생수가 높은 순으로 정렬 (내림차순)
                 }
+                /*
+                    Integer.compare(a, b)
+                    반환값
+                    a < b : 음수 | a = b : 0 | a > b : 양수
+
+                    sort((int a, int b) -> {...})
+                    (int a, int b) -> {...}이 Comparator를 람다식으로 표현한 것 (Comparator는 Interface임)
+                    음수가 반환 될 경우 -> a가 b보다 앞에 나옴
+                    0이 반환 될 경우 -> a와 b의 순서 유지
+                    양수가 반환 될 경우 -> b가 a보다 앞에 나옴
+                */
             });
         }
 
