@@ -11,18 +11,18 @@ public class Prob1 {
         return (100 - progress + spd - 1) / spd;
     }
 
-    private boolean isDeployable(int progress, int spd, int iter) {
-        return progress + spd * iter >= 100;
+    private boolean isDeployable(int progress, int spd, int deployDay) {
+        return progress + spd * deployDay >= 100;
     }
 
     public int[] solution(int[] progresses, int[] speeds) {
         ArrayList<Integer> deployCounts = new ArrayList<>();
         for (int i = 0; i < progresses.length; ) {
             int deployCount = 1;
-            int iter = getIterationCount(progresses[i], speeds[i]);
+            int deployDay = getIterationCount(progresses[i], speeds[i]);
             i++;
             if (i != progresses.length) {
-                while (i < progresses.length && isDeployable(progresses[i], speeds[i], iter)) {
+                while (i < progresses.length && isDeployable(progresses[i], speeds[i], deployDay)) {
                     deployCount++;
                     i++;
                 }
@@ -37,11 +37,11 @@ public class Prob1 {
     // 다른 사람 풀이 응용
     public int[] solutionEx(int[] progresses, int[] speeds) {
         Map<Integer, Integer> deployCounts = new TreeMap<>();
-        int iter = 0;
+        int deployDay = 0;
         for (int i = 0; i < progresses.length; i++) {
-            int iterLeft = (100 - progresses[i] + speeds[i] - 1) / speeds[i];
-            if (iterLeft > iter) iter = iterLeft;
-            deployCounts.merge(iter, 1, Integer::sum);
+            int deployDayLeft = (100 - progresses[i] + speeds[i] - 1) / speeds[i];
+            if (deployDayLeft > deployDay) deployDay = deployDayLeft;
+            deployCounts.merge(deployDay, 1, Integer::sum);
         }
         return deployCounts.values().stream().mapToInt(Integer::intValue).toArray();
     }
