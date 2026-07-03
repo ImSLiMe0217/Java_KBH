@@ -15,7 +15,7 @@ public class Prob03 {
 
         ArrayList<Integer> modList = new ArrayList<>(1);
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == maxVal) modList.add(entry.getKey());
+            if (entry.getValue().equals(maxVal)) modList.add(entry.getKey());
 //            if (entry.getValue() == max) modList.add(entry.getKey()); // (gpt 제안)
         }
 

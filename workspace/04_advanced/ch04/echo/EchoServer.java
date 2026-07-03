@@ -1,8 +1,6 @@
 package ch04.echo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -20,15 +18,16 @@ public class EchoServer {
             System.out.println("클라이언트 접속: " + s.getInetAddress().getHostAddress());
 
             // 클라이언트의 메세지를 수신하는 InputStream을 생성
-            InputStream in = s.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             // 클라이언트에 메세지를 송신하는 OutputStream 생성
-            OutputStream out = s.getOutputStream();
+            PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
 
-            int readData = 0;
-            while ((readData = in.read()) != -1) {
+            String readData = "";
+            while ((readData = in.readLine()) != null) {
                 // 표준 출력 장치로 1byte 출력
-                out.write(readData);    // 클라이언트에 메세지를 반송
-                System.out.write(readData); // 클라이언트의 메세지를 서버에도 출력
+                out.println("서버의 응답: " + readData);    // 클라이언트에 메세지를 반송
+                out.flush();
+                System.out.println(readData); // 클라이언트의 메세지를 서버에도 출력
             }
         } catch (IOException e) {
             System.err.println("네트워크 오류: " + e.getMessage());
