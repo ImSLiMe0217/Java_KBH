@@ -1,8 +1,8 @@
-package level03.day03;
+package algorithm.Hash;
 
 import java.util.Arrays;
 
-public class Prob1 {
+public class Prob3 {
     public boolean solution(String[] phone_book) {
         Arrays.sort(phone_book);
         for (int i = 0; i < phone_book.length - 1; i++) {

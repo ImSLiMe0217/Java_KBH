@@ -1,10 +1,10 @@
-package level03.day02;
+package algorithm.Hash;
 
 import java.util.HashSet;
 
 // 알고리즘 고득점 Kit
 // 해시 - 폰켓몬
-public class Prob1 {
+public class Prob2 {
     public int solution(int[] nums) {
         // 해시셋 - 값만 저장, 중복허용 안함
         // 폰켓몬의 전체 마리수와 종류만 있으면 됨

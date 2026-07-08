@@ -1,11 +1,11 @@
-package level03.day05;
+package algorithm.Hash;
 
 import java.util.*;
 
 // 베스트 앨범
 // HashMap을 사용해서 필요한 정보를 분류
 // ArrayList의 sort메서드를 사용해서 정렬
-public class Prob1 {
+public class Prob5 {
     public int[] solution(String[] genres, int[] plays) {
         // 장르별 총 재생 수를 저장하는 HashMap
         HashMap<String, Integer> totalPlayCountMap = new HashMap<>();
@@ -30,7 +30,8 @@ public class Prob1 {
             entry.getValue().sort((int[] a, int[] b) -> {
                 if (b[1] == a[1]) { // 같은 장르 내 재생수가 같은 노래 두 노래가 있을 경우
                     return Integer.compare(a[0], b[0]); // 노래 번호가 빠른 순으로 정렬 (오름차순)
-                } else {
+                }
+                else {
                     return Integer.compare(b[1], a[1]); // 재생수가 높은 순으로 정렬 (내림차순)
                 }
                 /*

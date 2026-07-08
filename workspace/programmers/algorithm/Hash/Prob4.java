@@ -1,9 +1,9 @@
-package level03.day04;
+package algorithm.Hash;
 
 import java.util.HashMap;
 
 // 의상
-public class Prob1 {
+public class Prob4 {
     public int solution(String[][] clothes) {
         HashMap<String, Integer> clothesCountMap = new HashMap<>();
         for (String[] cloth : clothes) {clothesCountMap.merge(cloth[1], 1, Integer::sum);}

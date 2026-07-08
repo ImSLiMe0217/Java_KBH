@@ -1,11 +1,11 @@
-package level03.day07;
+package algorithm.stack_and_queue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Prob1 {
+public class Prob2 {
     // 내 풀이
     private int getIterationCount(int progress, int spd) {
         return (100 - progress + spd - 1) / spd;
